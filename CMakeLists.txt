@@ -19,8 +19,19 @@ set(SOURCES
 # Include directories
 include_directories(inc)
 include_directories(src)
+
+# Find SDL2
+set(SDL2_DIR ${CMAKE_CURRENT_SOURCE_DIR}/inc/lib/cmake/SDL2)
+find_package(SDL2 REQUIRED)
+
+# Include SDL2 headers
+include_directories(${SDL2_INCLUDE_DIRS})
+
 # Executable
 add_executable(${PROJECT_NAME} ${SOURCES})
+
+# Link with SDL2
+target_link_libraries(${PROJECT_NAME} SDL2::SDL2 SDL2::SDL2main)
 
 # Subdirectories
 add_subdirectory(inc/characters)
