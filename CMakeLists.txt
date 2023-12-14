@@ -13,6 +13,9 @@ set(SOURCES
     main.cpp
     src/characters/npc.cpp
     src/characters/villager.cpp
+    src/buildings/building.cpp
+    src/buildings/smallHouse.cpp
+
     # Add more source files as needed
 )
 

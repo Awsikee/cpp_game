@@ -15,27 +15,21 @@ class Building
 
         int posX, posY; // right lower corner
 
+        short length, width; // buildings are two dimensional. Values defined by building type
+
         Building();
 
-        Building(std::string buildingName, int posX, int posY) : buildingName(buildingName, posX, posY){}
+        Building(std::string buildingName, int posX, int posY);
 
-        virtual ~Building()
-        {
-            
-        }
+        virtual ~Building();
 
-        short length, width; // buildingd are two dimensional. Values defined by building type
+        virtual void assignCharacter(const std::string characterName)const;
 
-    virtual void assignCharacter(const std::string characterName) const {
-        std::cout << characterName << " has been assigned to " << buildingName << "." << std::endl;
-    }
-    // virtual void getInfo() const{
-    //     std::cout << this->buildingName << " has resident named " << this->residents[0].name << "." << std::endl;
-    // }
-    virtual void interact(int *arg)
-    {
-        std::cout << " Interacted with base bulding" << std::endl;
-    }
+        // virtual void getInfo() const{
+        //     std::cout << this->buildingName << " has resident named " << this->residents[0].name << "." << std::endl;
+        // }
+
+        virtual void interact(int *arg);
 
 
 
