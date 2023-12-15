@@ -15,6 +15,8 @@ set(SOURCES
     src/characters/villager.cpp
     src/buildings/building.cpp
     src/buildings/smallHouse.cpp
+    src/game/game.cpp
+
 
     # Add more source files as needed
 )
