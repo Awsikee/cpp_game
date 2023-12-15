@@ -9,6 +9,8 @@ SmallHouse::SmallHouse(){}
 
 SmallHouse::SmallHouse(std::string name, int posX, int posY) : Building(name, posX, posY)
 {
+    height = SH_Y_SIZE;
+    width = SH_X_SIZE;
     for (size_t i = 0; i < MAX_RESIDENTS_SM; ++i)
     {
         residents[i].name = "DefaultNPC" + std::to_string(i + 1);
@@ -34,6 +36,7 @@ void SmallHouse::getInfo()
 {
 
     std::cout << this->buildingName << " has resident named " << this->residents[0].name << "." << std::endl;
+    std::cout << " building X dim is " << width << " Y dim is "<< height  << std::endl;
 }
 
 void SmallHouse::interact(int *arg)

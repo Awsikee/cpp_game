@@ -3,6 +3,7 @@
 #define SMALLHOUSE_HPP
 
 #include "../characters/npc.hpp"
+#include "../dataDefinition.hpp"
 #include <string>
 #include "building.hpp"
 

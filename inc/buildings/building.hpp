@@ -4,18 +4,25 @@
 
 #include <string>
 #include <iostream>
+
+#include "../dataDefinition.hpp"
+
 //#include "../characters/npc.hpp"
 
 //class NPC;
 class Building
 {
+
+    protected:
+        short height;
+        short width; // buildings are two dimensional. Values defined by building type
     public:
 
         std::string buildingName;
 
         int posX, posY; // right lower corner
 
-        short length, width; // buildings are two dimensional. Values defined by building type
+        
 
         Building();
 
