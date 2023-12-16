@@ -3,29 +3,31 @@
 #define GAMECLASS_HPP
 
 #include "../inc/include/SDL2/SDL.h"
-#include "../SDL2_image-2.8.1/SDL_IMAGE/include/SDL_image.h"
-
 #include <iostream>
 class Game
 {
-private:
-    bool isRunning;
-    SDL_Window *window;
-    SDL_Renderer *renderer;
-    int count;
+    private:
+        bool isRunning;
+        SDL_Window *window;
+        SDL_Renderer *renderer;
+        int count;
+    
+    public:
+        Game();
+        ~Game();
 
-public:
-    Game();
-    ~Game();
+        void init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
 
-    void init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen);
+        void handleEvents();
+        void update();
+        void render();
+        void clean();
 
-    void handleEvents();
-    void update();
-    void render();
-    void clean();
+        inline bool running(){return isRunning;}
 
-    inline bool running() { return isRunning; }
+
+
+
 };
 
 #endif
