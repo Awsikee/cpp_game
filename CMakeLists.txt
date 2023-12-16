@@ -18,6 +18,7 @@ set(SOURCES
     src/game/game.cpp
     src/game/textureManager.cpp
     src/game/GameObject.cpp
+    src/game/Map.cpp
 
 
     # Add more source files as needed

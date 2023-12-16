@@ -9,6 +9,12 @@
 #define SH_Y_SIZE 2
 #define SH_MAX_RESIDENTS 2
 
+enum tiles
+{
+    g,
+    w,
+    d
+};
 
 enum emotion
 {

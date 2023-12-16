@@ -4,6 +4,7 @@
 
 #include "../inc/include/SDL2/SDL.h"
 #include "../SDL2_image-2.8.1/SDL_IMAGE/include/SDL_image.h"
+#include "../../inc/dataDefinition.hpp"
 
 #include <iostream>
 class Game
@@ -11,10 +12,10 @@ class Game
 private:
     bool isRunning;
     SDL_Window *window;
-    SDL_Renderer *renderer;
     int count;
 
 public:
+    static SDL_Renderer *renderer;
     Game();
     ~Game();
 

@@ -1,11 +1,11 @@
 #include "../inc/game/textureManager.hpp"
 
-SDL_Texture *TextureManager::LoadTexture(const char *texture, SDL_Renderer *renderer)
+SDL_Texture *TextureManager::LoadTexture(const char *texture)
 {
     SDL_Surface *tmpSurface = IMG_Load(texture);
     SDL_Texture *tex = nullptr;
     if(tmpSurface){
-        tex = SDL_CreateTextureFromSurface(renderer, tmpSurface);
+        tex = SDL_CreateTextureFromSurface(Game::renderer, tmpSurface);
     }
     else
     {
@@ -15,3 +15,8 @@ SDL_Texture *TextureManager::LoadTexture(const char *texture, SDL_Renderer *rend
 
     return tex;
 }
+
+ void TextureManager::Draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest)
+ {
+    SDL_RenderCopy(Game::renderer, tex, &src, &dest);
+ }
