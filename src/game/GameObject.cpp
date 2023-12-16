@@ -1,6 +1,11 @@
 #include "../../inc/game/GameObject.hpp"
 #include "../../inc/game/textureManager.hpp"
 
+GameObject::GameObject() : objTexture(nullptr), renderer(nullptr), xpos(0), ypos(0)
+{
+
+}
+
 GameObject::GameObject(const char* texturesheet, SDL_Renderer* ren, int x, int y) 
 : renderer(ren), xpos(x), ypos(y)
 {

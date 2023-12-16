@@ -6,40 +6,36 @@
 #include "../game/GameObject.hpp"
 
 using namespace std;
-class NPC
+class NPC : public GameObject
 {
-    private:
-    int* energy; 
+private:
+    int *energy;
 
-    public: //make everything public temporarly
-
+public: // make everything public temporarly
     short age;
     bool gender;
     short emotional_state;
 
     uint8_t hunger; // depelled with time. repelled by food. Requires food item
     uint8_t health; // depelled by events
-    
+
     short speed;
 
-    int posX, posY;
-
-    //NPC parent1, parent2; // optional
+    // NPC parent1, parent2; // optional
     string name, surname;
 
     NPC();
-    NPC(short age, bool gender, short emotional_state, short speed, int posX, int posY, string name, string surname, int* energy);
+    NPC(const char *texturesheet, SDL_Renderer *ren, int x, int y, short age, bool gender, short emotional_state, short speed, string name, string surname, int *energy);
     virtual ~NPC();
 
     // Getter for energy
-    inline int* getEnergyPointer()const{return energy;}
+    inline int *getEnergyPointer() const { return energy; }
 
-    //TBD
-    // movement
-    // ai
-    // needs
-    // talk
-
+    // TBD
+    //  movement
+    //  ai
+    //  needs
+    //  talk
 };
 
 #endif

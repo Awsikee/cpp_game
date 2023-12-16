@@ -1,8 +1,9 @@
 #include "../../inc/game/game.hpp"
 #include "../../inc/game/textureManager.hpp"
-#include "../../inc/game/GameObject.hpp"
+#include "../../inc/characters/villager.hpp"
 
-GameObject* npc;
+Villager* npc;
+
 
 Game::Game()
 {
@@ -38,7 +39,9 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     {
         isRunning = false;
     }
-    npc = new GameObject("../../assets/texture.png", renderer,0,0);
+    //npc = new GameObject("../../assets/texture.png", renderer,0,0);
+        int defaultEnergy = 50;
+    npc = new Villager("../../assets/texture.png", renderer,0,0,45,male,fine,1, "Sunshine", "Chan", &defaultEnergy);
 }
 
 void Game::handleEvents()
