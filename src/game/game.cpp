@@ -1,4 +1,9 @@
 #include "../../inc/game/game.hpp"
+#include "../../inc/game/textureManager.hpp"
+#include "../../inc/characters/villager.hpp"
+
+Villager* npc;
+
 
 Game::Game()
 {
@@ -8,6 +13,7 @@ Game::~Game() {}
 void Game::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
     int flags = 0;
+    count = 0;
     if (fullscreen)
     {
         flags = SDL_WINDOW_FULLSCREEN;
@@ -33,6 +39,9 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     {
         isRunning = false;
     }
+    //npc = new GameObject("../../assets/texture.png", renderer,0,0);
+        int defaultEnergy = 50;
+    npc = new Villager("../../assets/texture.png", renderer,0,0,45,male,fine,1, "Sunshine", "Chan", &defaultEnergy);
 }
 
 void Game::handleEvents()
@@ -52,11 +61,14 @@ void Game::handleEvents()
 void Game::update()
 {
     count++;
+
+    npc->update();
 }
 
 void Game::render()
 {
     SDL_RenderClear(renderer);
+    npc->renderObj();
     // add stuff to render here
     SDL_RenderPresent(renderer);
 }

@@ -16,6 +16,8 @@ set(SOURCES
     src/buildings/building.cpp
     src/buildings/smallHouse.cpp
     src/game/game.cpp
+    src/game/textureManager.cpp
+    src/game/GameObject.cpp
 
 
     # Add more source files as needed
@@ -24,19 +26,25 @@ set(SOURCES
 # Include directories
 include_directories(inc)
 include_directories(src)
+include_directories(SDL2_image-2.8.1)
 
 # Find SDL2
 set(SDL2_DIR ${CMAKE_CURRENT_SOURCE_DIR}/inc/lib/cmake/SDL2)
+set(SDL2_IMAGE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/SDL2_image-2.8.1/SDL_IMAGE/cmake)
+
 find_package(SDL2 REQUIRED)
+find_package(SDL2_IMAGE REQUIRED)
 
 # Include SDL2 headers
-include_directories(${SDL2_INCLUDE_DIRS})
+include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
 
 # Executable
 add_executable(${PROJECT_NAME} ${SOURCES})
 
+target_include_directories(${PROJECT_NAME} PRIVATE ${SDL2_IMAGE_INCLUDE_DIRS} SDL2_image::SDL2_image )
 # Link with SDL2
-target_link_libraries(${PROJECT_NAME} SDL2::SDL2 SDL2::SDL2main)
+target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} SDL2_image::SDL2_image)
 
 # Subdirectories
 add_subdirectory(inc/characters)
+add_subdirectory(inc/buildings)
