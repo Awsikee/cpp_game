@@ -1,4 +1,8 @@
 #include "../../inc/game/game.hpp"
+#include "../../inc/game/textureManager.hpp"
+
+SDL_Texture *charTextutre;
+SDL_Rect srcR, destR;
 
 Game::Game()
 {
@@ -8,6 +12,7 @@ Game::~Game() {}
 void Game::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
     int flags = 0;
+    count = 0;
     if (fullscreen)
     {
         flags = SDL_WINDOW_FULLSCREEN;
@@ -33,6 +38,8 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     {
         isRunning = false;
     }
+
+    charTextutre = TextureManager::LoadTexture("../../assets/Texture.jpeg", renderer);
 }
 
 void Game::handleEvents()
@@ -52,11 +59,18 @@ void Game::handleEvents()
 void Game::update()
 {
     count++;
+
+    destR.h = 128;
+    destR.w = 160;
+    destR.x = count;
+    std::cout << count << std::endl;
 }
 
 void Game::render()
 {
     SDL_RenderClear(renderer);
+
+    SDL_RenderCopy(renderer, charTextutre, NULL, &destR);
     // add stuff to render here
     SDL_RenderPresent(renderer);
 }
