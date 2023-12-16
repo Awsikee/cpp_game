@@ -3,6 +3,7 @@
 
 #include <string>
 #include "../buildings/building.hpp"
+#include "../game/GameObject.hpp"
 
 using namespace std;
 class NPC
@@ -31,7 +32,7 @@ class NPC
     virtual ~NPC();
 
     // Getter for energy
-    int* getEnergyPointer()const;
+    inline int* getEnergyPointer()const{return energy;}
 
     //TBD
     // movement

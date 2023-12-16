@@ -2,6 +2,7 @@
 #define TEXTUREMANAGERCLASS_HPP
 
 #include "game.hpp"
+#include <iostream>
 
 class TextureManager
 {

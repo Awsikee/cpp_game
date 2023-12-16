@@ -1,8 +1,8 @@
 #include "../../inc/game/game.hpp"
 #include "../../inc/game/textureManager.hpp"
+#include "../../inc/game/GameObject.hpp"
 
-SDL_Texture *charTextutre;
-SDL_Rect srcR, destR;
+GameObject* npc;
 
 Game::Game()
 {
@@ -38,8 +38,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     {
         isRunning = false;
     }
-
-    charTextutre = TextureManager::LoadTexture("../../assets/Texture.jpeg", renderer);
+    npc = new GameObject("../../assets/texture.png", renderer,0,0);
 }
 
 void Game::handleEvents()
@@ -60,17 +59,13 @@ void Game::update()
 {
     count++;
 
-    destR.h = 128;
-    destR.w = 160;
-    destR.x = count;
-    std::cout << count << std::endl;
+    npc->update();
 }
 
 void Game::render()
 {
     SDL_RenderClear(renderer);
-
-    SDL_RenderCopy(renderer, charTextutre, NULL, &destR);
+    npc->renderObj();
     // add stuff to render here
     SDL_RenderPresent(renderer);
 }

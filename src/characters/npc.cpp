@@ -17,6 +17,3 @@ NPC::~NPC()
 
 }
 
-int* NPC::getEnergyPointer() const {
-    return energy;
-}

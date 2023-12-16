@@ -17,7 +17,7 @@ set(SOURCES
     src/buildings/smallHouse.cpp
     src/game/game.cpp
     src/game/textureManager.cpp
-
+    src/game/GameObject.cpp
 
 
     # Add more source files as needed
