@@ -1,8 +1,11 @@
 #include "../../inc/game/game.hpp"
 #include "../../inc/game/textureManager.hpp"
 #include "../../inc/game/GameObject.hpp"
+#include "../../inc/game/Map.hpp"
 
 GameObject* npc;
+Map* map;
+SDL_Renderer* Game::renderer = nullptr;
 
 Game::Game()
 {
@@ -38,7 +41,8 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     {
         isRunning = false;
     }
-    npc = new GameObject("../../assets/texture.png", renderer,0,0);
+    npc = new GameObject("../../assets/texture.png",0,0);
+    map = new Map();
 }
 
 void Game::handleEvents()
@@ -60,11 +64,13 @@ void Game::update()
     count++;
 
     npc->update();
+    //map->loadMap();
 }
 
 void Game::render()
 {
     SDL_RenderClear(renderer);
+    map->drawMap();
     npc->renderObj();
     // add stuff to render here
     SDL_RenderPresent(renderer);
