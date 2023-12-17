@@ -28,10 +28,10 @@ int basicMap[MAP_HEIGTH][MAP_WIDTH] =
     {g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,w,w,g,g,g,g,w,g,g,g}
 };
 
-Map::Map()
-: dirt(TextureManager::LoadTexture("../../assets/dirt.png")), 
-  grass(TextureManager::LoadTexture("../../assets/grass.png")), 
-  water(TextureManager::LoadTexture("../../assets/water.png"))
+Map::Map():
+    dirt(TextureManager::LoadTexture("../../assets/dirt.png")), 
+    grass(TextureManager::LoadTexture("../../assets/grass.png")), 
+    water(TextureManager::LoadTexture("../../assets/water.png"))
 {
     loadMap(basicMap);
 
