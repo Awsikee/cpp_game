@@ -24,7 +24,8 @@ class SpriteComponent : public Component
         position = &entity->getComponent<PositionComponent>();
 
         srcRect.x = srcRect.y = 0;
-        srcRect.w = srcRect.h = 32;
+        srcRect.w = 768; //To be changed when image sizes are standarized
+        srcRect.h = 980;  //To be changed when image sizes are standarized
         destRect.w = destRect.h = 64;
 
      }
