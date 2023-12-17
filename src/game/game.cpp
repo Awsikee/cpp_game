@@ -2,15 +2,16 @@
 #include "../../inc/game/textureManager.hpp"
 #include "../../inc/game/GameObject.hpp"
 #include "../../inc/game/Map.hpp"
-#include "../../inc/game/ECS.hpp"
-#include "../../inc/game/Components.hpp"
+#include "../../inc/game/ECS/ECS.hpp"
+#include "../../inc/game/ECS/Components.hpp"
+#include "../../inc/game/ECS/SpriteComponent.hpp"
 
-GameObject* npc;
+
 Map* map;
 SDL_Renderer* Game::renderer = nullptr;
 
 Manager manager;
-auto& newPlayer(manager.addEntity());
+auto& player(manager.addEntity());
 
 Game::Game()
 {
@@ -46,9 +47,10 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     {
         isRunning = false;
     }
-    npc = new GameObject("../../assets/texture.png",0,0);
     map = new Map();
-    newPlayer.addComponent<PositionComponent>();
+
+    player.addComponent<PositionComponent>();
+    player.addComponent<SpriteComponent>("../../assets/texture.png");
 }
 
 void Game::handleEvents()
@@ -68,11 +70,9 @@ void Game::handleEvents()
 void Game::update()
 {
     count++;
+    manager.refresh();
+    manager.update();
 
-    npc->update();
-    manager.uptate();
-    std::cout << newPlayer.getComponent<PositionComponent>().x() << "," <<
-    newPlayer.getComponent<PositionComponent>().y() << std::endl;
     //map->loadMap();
 }
 
@@ -80,8 +80,8 @@ void Game::render()
 {
     SDL_RenderClear(renderer);
     map->drawMap();
-    npc->renderObj();
     // add stuff to render here
+    manager.draw();
     SDL_RenderPresent(renderer);
 }
 
