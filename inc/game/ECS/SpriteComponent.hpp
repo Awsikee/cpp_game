@@ -9,7 +9,7 @@
 class SpriteComponent : public Component
 {
     private:
-        PositionComponent *position;
+        PositionComponent *transform;
         SDL_Texture *texture;
         SDL_Rect srcRect, destRect;
 
@@ -17,11 +17,11 @@ class SpriteComponent : public Component
      SpriteComponent() = default;
      SpriteComponent(const char* path)
      {
-        texture = TextureManager::LoadTexture(path);
+        setTex(path);
      }
      void init() override
      {
-        position = &entity->getComponent<PositionComponent>();
+        transform = &entity->getComponent<PositionComponent>();
 
         srcRect.x = srcRect.y = 0;
         srcRect.w = 768; //To be changed when image sizes are standarized
@@ -31,12 +31,17 @@ class SpriteComponent : public Component
      }
      void update() override
      {
-        destRect.x = position->x();
-        destRect.y = position->y();
+        destRect.x = (int)transform->posiiton.x;
+        destRect.y = (int)transform->posiiton.y;
      }
      void draw() override
      {
         TextureManager::Draw(texture,srcRect,destRect);
+     }
+
+     void setTex(const char* path)
+     {
+         texture = TextureManager::LoadTexture(path);
      }
 };
 

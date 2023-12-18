@@ -2,6 +2,7 @@
 #include "../../inc/game/textureManager.hpp"
 #include "../../inc/game/GameObject.hpp"
 #include "../../inc/game/Map.hpp"
+#include "../../inc/game/Vector2D.hpp"
 #include "../../inc/game/ECS/ECS.hpp"
 #include "../../inc/game/ECS/Components.hpp"
 #include "../../inc/game/ECS/SpriteComponent.hpp"
@@ -72,6 +73,11 @@ void Game::update()
     count++;
     manager.refresh();
     manager.update();
+    player.getComponent<PositionComponent>().posiiton.Add(Vector2D(5,0));
+    if (player.getComponent<PositionComponent>().posiiton.x > 100)
+    {
+        player.getComponent<SpriteComponent>().setTex("../../assets/texture.png");
+    }
 
     //map->loadMap();
 }
