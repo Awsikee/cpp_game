@@ -31,8 +31,8 @@ class SpriteComponent : public Component
      }
      void update() override
      {
-        destRect.x = (int)transform->posiiton.x;
-        destRect.y = (int)transform->posiiton.y;
+        destRect.x = (int)transform->position.x;
+        destRect.y = (int)transform->position.y;
      }
      void draw() override
      {
