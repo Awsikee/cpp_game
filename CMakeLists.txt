@@ -20,6 +20,7 @@ set(SOURCES
     src/game/GameObject.cpp
     src/game/Map.cpp
     src/game/Vector2D.cpp
+    src/game/Collision.cpp
 
 
 

@@ -12,9 +12,11 @@ public:
     Vector2D position;
     Vector2D velocity;
 
+    int height = 32;
+    int width = 32;
+    int scale = 1;
+
     int speed = 3;
-
-
 
 
     PositionComponent()
@@ -28,6 +30,15 @@ public:
         position.y = y;
     }
 
+        PositionComponent(float x, float y, int w, int h, int sc)
+    {
+        position.x = x;
+        position.y = y;
+        height = h;
+        width = w;
+        scale = sc;
+    }
+
     void init() override
     {
         velocity.x = 0;
@@ -38,7 +49,7 @@ public:
     {
         position.x += velocity.x * speed;
         position.y += velocity.y * speed;
-        std::cout<<position;
+        //std::cout<<position;
     }
 
 
