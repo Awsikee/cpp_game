@@ -43,6 +43,13 @@ Map::Map():
     //dirt = TextureManager::LoadTexture("../../assets/dirt.png");
 }
 
+Map::~Map()
+{
+    SDL_DestroyTexture(grass);
+    SDL_DestroyTexture(water);
+    SDL_DestroyTexture(dirt);
+}
+
 void Map::loadMap(int arr[MAP_HEIGTH][MAP_WIDTH])
 {
     for (int row = 0; row < MAP_HEIGTH; row++){

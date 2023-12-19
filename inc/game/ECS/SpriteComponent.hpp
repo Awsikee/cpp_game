@@ -19,20 +19,26 @@ class SpriteComponent : public Component
      {
         setTex(path);
      }
+     ~SpriteComponent()
+     {
+         SDL_DestroyTexture(texture);
+     }
      void init() override
      {
         transform = &entity->getComponent<PositionComponent>();
 
         srcRect.x = srcRect.y = 0;
-        srcRect.w = 768; //To be changed when image sizes are standarized
-        srcRect.h = 980;  //To be changed when image sizes are standarized
-        destRect.w = destRect.h = 64;
+        srcRect.w = transform->width; //To be changed when image sizes are standarized
+        srcRect.h = transform->height;  //To be changed when image sizes are standarized
 
      }
      void update() override
      {
         destRect.x = (int)transform->position.x;
         destRect.y = (int)transform->position.y;
+        destRect.w = transform->width * transform->scale;
+        destRect.h = transform->height * transform->scale;
+
      }
      void draw() override
      {

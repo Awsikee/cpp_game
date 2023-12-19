@@ -5,5 +5,6 @@
 #include "PositionComponent.hpp"
 #include "SpriteComponent.hpp"
 #include "KeyboardController.h"
+#include "ColliderComponent.hpp"
 
 #endif
