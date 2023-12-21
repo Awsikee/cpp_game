@@ -62,7 +62,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 
     tile0.addComponent<TileComponent>(200,200,32,32,0);
     tile1.addComponent<TileComponent>(250,250,32,32,1);
-    tile2.addComponent<TileComponent>(150,150,32,32,3);
+    tile2.addComponent<TileComponent>(150,150,32,32,2);
     tile1.addComponent<ColliderComponent>("water");
 
     player.addComponent<PositionComponent>();

@@ -37,6 +37,7 @@ class TileComponent : public Component
                     path = "../../assets/dirt.png";
                     break;
                 default:
+                    // add some texture missing to avoid exceptions during execution
                     break;
             }
             
