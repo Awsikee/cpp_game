@@ -13,7 +13,9 @@ enum tiles
 {
     g,
     w,
-    d
+    d,
+    b,
+    c
 };
 
 enum emotion

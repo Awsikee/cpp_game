@@ -7,6 +7,9 @@
 #include "../../inc/dataDefinition.hpp"
 
 #include <iostream>
+#include <vector>
+
+class ColliderComponent;
 class Game
 {
 private:
@@ -17,6 +20,7 @@ private:
 public:
     static SDL_Renderer *renderer;
     static SDL_Event event;
+    static std::vector<ColliderComponent*> colliders;
 
     Game();
     ~Game();
