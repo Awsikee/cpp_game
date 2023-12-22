@@ -1,5 +1,7 @@
 #ifndef DATADEFINITION_HPP
 #define DATADEFINITION_HPP
+#include <iosfwd>
+#include <cstddef>
 //Building constant
 #define DEFAULT_X_SIZE 1
 #define DEFAULT_Y_SIZE 1
@@ -53,6 +55,14 @@ enum gender
 {
 male,
 female
+};
+
+enum groupLabels : std::size_t
+{
+groupMap,
+groupNPCs,
+groupColliders,
+groupEntities
 };
 
 #endif

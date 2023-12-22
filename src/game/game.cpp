@@ -64,17 +64,24 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     tile1.addComponent<TileComponent>(250,250,32,32,1);
     tile2.addComponent<TileComponent>(150,150,32,32,2);
     tile1.addComponent<ColliderComponent>("water");
+    tile0.addGroup(groupMap);
+    tile1.addGroup(groupMap);
+    tile2.addGroup(groupMap);
 
     player.addComponent<PositionComponent>();
     player.addComponent<SpriteComponent>("../../assets/texture.png");
     player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player");
+    player.addGroup(groupNPCs);
+    
     wall.addComponent<PositionComponent>(300.0f, 300.0f, 20, 300, 1);
     wall.addComponent<SpriteComponent>("../../assets/dirt.png");
     wall.addComponent<ColliderComponent>("wall");
+    wall.addGroup(groupMap);
     building.addComponent<PositionComponent>(250.0f, 300.0f, 100, 200 , 1);
     building.addComponent<SpriteComponent>("../../assets/brick.png");
     building.addComponent<ColliderComponent>("building");
+    building.addGroup(groupEntities);
 }
 
 void Game::handleEvents()
@@ -106,12 +113,28 @@ void Game::update()
     // map->loadMap();
 }
 
+auto& tiles(manager.getGroup(groupMap));
+auto& players(manager.getGroup(groupNPCs));
+auto& entities(manager.getGroup(groupEntities));
+
+
 void Game::render()
 {
     SDL_RenderClear(renderer);
     map->drawMap();
     // add stuff to render here
-    manager.draw();
+    for(auto& t : tiles)
+    {
+        t->draw();
+    }
+    for(auto& p : players)
+    {
+        p->draw();
+    }
+    for(auto& e : entities)
+    {
+        e->draw();
+    }
     SDL_RenderPresent(renderer);
 }
 
