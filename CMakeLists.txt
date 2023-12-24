@@ -21,6 +21,7 @@ set(SOURCES
     src/game/Map.cpp
     src/game/Vector2D.cpp
     src/game/Collision.cpp
+    src/game/ECS.cpp
 
 
 
