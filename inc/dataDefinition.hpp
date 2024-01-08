@@ -11,6 +11,8 @@
 #define SH_Y_SIZE 2
 #define SH_MAX_RESIDENTS 2
 
+#define DEFAULT_TILE_SIZE 256
+
 enum tiles
 {
     g,

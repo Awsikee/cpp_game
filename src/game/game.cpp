@@ -60,16 +60,16 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     }
     map = new Map();
 
-    tile0.addComponent<TileComponent>(200,200,32,32,0);
-    tile1.addComponent<TileComponent>(250,250,32,32,1);
-    tile2.addComponent<TileComponent>(150,150,32,32,2);
+    tile0.addComponent<TileComponent>(200,200,DEFAULT_TILE_SIZE,DEFAULT_TILE_SIZE,0);
+    tile1.addComponent<TileComponent>(250,250,DEFAULT_TILE_SIZE,DEFAULT_TILE_SIZE,1);
+    tile2.addComponent<TileComponent>(150,150,DEFAULT_TILE_SIZE,DEFAULT_TILE_SIZE,2);
     tile1.addComponent<ColliderComponent>("water");
     tile0.addGroup(groupMap);
     tile1.addGroup(groupMap);
     tile2.addGroup(groupMap);
 
     player.addComponent<PositionComponent>();
-    player.addComponent<SpriteComponent>("../../assets/texture.png");
+    player.addComponent<SpriteComponent>("../../assets/spritesheet.png",8,150);
     player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player");
     player.addGroup(groupNPCs);

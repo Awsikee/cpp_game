@@ -36,7 +36,7 @@ Map::Map():
     loadMap(basicMap);
 
     src.x = src.y = 0;
-    src.w = dest.w = 32;
+    src.w = dest.w = DEFAULT_TILE_SIZE;
     src.h = dest.h = 32;
 
     dest.x = dest.y = 0;
