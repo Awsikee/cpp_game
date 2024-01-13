@@ -14,7 +14,7 @@ public:
 
     int height = 128;
     int width = 128;
-    int scale = 1;
+    float scale = 1.0f;
 
     int speed = 3;
 
@@ -29,7 +29,7 @@ public:
         position.y = y;
     }
 
-        PositionComponent(float x, float y, int w, int h, int sc)
+        PositionComponent(float x, float y, int w, int h, float sc)
     {
         position.x = x;
         position.y = y;

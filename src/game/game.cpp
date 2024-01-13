@@ -15,14 +15,15 @@ SDL_Event Game::event;
 
 std::vector<ColliderComponent*> Game::colliders;
 
+
 auto &player(manager.addEntity());
 auto &wall(manager.addEntity());
 auto &building(manager.addEntity());
 
 
-auto& tile0(manager.addEntity());
-auto& tile1(manager.addEntity());
-auto& tile2(manager.addEntity());
+auto& tileGrass(manager.addEntity());
+auto& tileWater(manager.addEntity());
+auto& tileDirt(manager.addEntity());
 
 Game::Game()
 {
@@ -60,25 +61,21 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     }
     map = new Map();
 
-    tile0.addComponent<TileComponent>(200,200,DEFAULT_TILE_SIZE,DEFAULT_TILE_SIZE,0);
-    tile1.addComponent<TileComponent>(250,250,DEFAULT_TILE_SIZE,DEFAULT_TILE_SIZE,1);
-    tile2.addComponent<TileComponent>(150,150,DEFAULT_TILE_SIZE,DEFAULT_TILE_SIZE,2);
-    tile1.addComponent<ColliderComponent>("water");
-    tile0.addGroup(groupMap);
-    tile1.addGroup(groupMap);
-    tile2.addGroup(groupMap);
+    tileGrass.addComponent<TileComponent>(200,200,DEFAULT_TILE_SIZE,DEFAULT_TILE_SIZE,g);
+    tileWater.addComponent<TileComponent>(250,250,DEFAULT_TILE_SIZE,DEFAULT_TILE_SIZE,w);
+    tileDirt.addComponent<TileComponent>(150,150,DEFAULT_TILE_SIZE,DEFAULT_TILE_SIZE,d);
+    tileWater.addComponent<ColliderComponent>("water");
+    tileGrass.addGroup(groupMap);
+    tileWater.addGroup(groupMap);
+    tileDirt.addGroup(groupMap);
 
-    player.addComponent<PositionComponent>();
-    player.addComponent<SpriteComponent>("../../assets/spritesheet.png",8,150);
+    player.addComponent<PositionComponent>(0,0,400,704,0.25f);
+    player.addComponent<SpriteComponent>("../../assets/full_spritesheet.png",true);
     player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player");
     player.addGroup(groupNPCs);
     
-    wall.addComponent<PositionComponent>(300.0f, 300.0f, 20, 300, 1);
-    wall.addComponent<SpriteComponent>("../../assets/dirt.png");
-    wall.addComponent<ColliderComponent>("wall");
-    wall.addGroup(groupMap);
-    building.addComponent<PositionComponent>(250.0f, 300.0f, 100, 200 , 1);
+    building.addComponent<PositionComponent>(tilePosition(2.0f), tilePosition(2.0f), DEFAULT_TILE_SIZE, 2*DEFAULT_TILE_SIZE , 1);
     building.addComponent<SpriteComponent>("../../assets/brick.png");
     building.addComponent<ColliderComponent>("building");
     building.addGroup(groupEntities);
@@ -104,7 +101,7 @@ void Game::update()
     manager.update();
 
     if(Collision::AABB(player.getComponent<ColliderComponent>().collider,
-    wall.getComponent<ColliderComponent>().collider))
+    tileWater.getComponent<ColliderComponent>().collider))
     {
         player.getComponent<PositionComponent>().velocity* -1;
         std::cout << "Wall Hit";
