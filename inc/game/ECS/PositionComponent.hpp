@@ -12,9 +12,9 @@ public:
     Vector2D position;
     Vector2D velocity;
 
-    int height = 32;
-    int width = 32;
-    int scale = 1;
+    int height = 128;
+    int width = 128;
+    float scale = 1.0f;
 
     int speed = 3;
 
@@ -29,7 +29,7 @@ public:
         position.y = y;
     }
 
-        PositionComponent(float x, float y, int w, int h, int sc)
+        PositionComponent(float x, float y, int w, int h, float sc)
     {
         position.x = x;
         position.y = y;

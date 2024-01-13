@@ -11,6 +11,8 @@
 #define SH_Y_SIZE 2
 #define SH_MAX_RESIDENTS 2
 
+#define DEFAULT_TILE_SIZE 128
+
 enum tiles
 {
     g,
@@ -64,5 +66,10 @@ groupNPCs,
 groupColliders,
 groupEntities
 };
+/* Calculate tile position or dimensions based on tile size*/
+inline float tilePosition(float position)
+{
+    return position * DEFAULT_TILE_SIZE;
+}
 
 #endif

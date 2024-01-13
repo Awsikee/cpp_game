@@ -36,11 +36,9 @@ Map::Map():
     loadMap(basicMap);
 
     src.x = src.y = 0;
-    src.w = dest.w = 32;
-    src.h = dest.h = 32;
+    src.w = dest.w = src.h = dest.h = DEFAULT_TILE_SIZE;
 
     dest.x = dest.y = 0;
-    //dirt = TextureManager::LoadTexture("../../assets/dirt.png");
 }
 
 Map::~Map()
@@ -70,8 +68,8 @@ void Map::drawMap()
         {
             type = map[row][column];
 
-            dest.x = column * 32;
-            dest.y = row *32;
+            dest.x = column * DEFAULT_TILE_SIZE;
+            dest.y = row *DEFAULT_TILE_SIZE;
 
             switch (type)
             {
