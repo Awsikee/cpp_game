@@ -29,13 +29,13 @@ public:
 
         scale= sc;
     }
-    PositionComponent(float x, float y)
+    PositionComponent(int x, int y)
     {
         position.x = x;
         position.y = y;
     }
 
-    PositionComponent(float x, float y, int w, int h, float sc)
+    PositionComponent(int x, int y, int w, int h, float sc)
     {
         position.x = x;
         position.y = y;
@@ -51,6 +51,8 @@ public:
 
     void update() override
     {
+        position.x += velocity.x * speed;
+        position.y += velocity.y * speed;
     }
 };
 
