@@ -20,11 +20,6 @@ auto &player(manager.addEntity());
 auto &wall(manager.addEntity());
 auto &building(manager.addEntity());
 
-
-auto& tileGrass(manager.addEntity());
-auto& tileWater(manager.addEntity());
-auto& tileDirt(manager.addEntity());
-
 Game::Game()
 {
 }
@@ -60,25 +55,19 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
         isRunning = false;
     }
     map = new Map();
+    Map::loadMap("../../assets/map.map",16,16);
 
-    tileGrass.addComponent<TileComponent>(200,200,DEFAULT_TILE_SIZE,DEFAULT_TILE_SIZE,g);
-    tileWater.addComponent<TileComponent>(250,250,DEFAULT_TILE_SIZE,DEFAULT_TILE_SIZE,w);
-    tileDirt.addComponent<TileComponent>(150,150,DEFAULT_TILE_SIZE,DEFAULT_TILE_SIZE,d);
-    tileWater.addComponent<ColliderComponent>("water");
-    tileGrass.addGroup(groupMap);
-    tileWater.addGroup(groupMap);
-    tileDirt.addGroup(groupMap);
 
-    player.addComponent<PositionComponent>(0,0,400,704,0.25f);
+    player.addComponent<PositionComponent>(0,1,400,704,0.25f *GAMESCALE);
     player.addComponent<SpriteComponent>("../../assets/full_spritesheet.png",true);
     player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player");
     player.addGroup(groupNPCs);
     
-    building.addComponent<PositionComponent>(tilePosition(2.0f), tilePosition(2.0f), DEFAULT_TILE_SIZE, 2*DEFAULT_TILE_SIZE , 1);
-    building.addComponent<SpriteComponent>("../../assets/brick.png");
-    building.addComponent<ColliderComponent>("building");
-    building.addGroup(groupEntities);
+    // building.addComponent<PositionComponent>(tilePosition(2.0f), tilePosition(2.0f), DEFAULT_TILE_SIZE, 2*DEFAULT_TILE_SIZE , 1);
+    // building.addComponent<SpriteComponent>("../../assets/brick.png");
+    // building.addComponent<ColliderComponent>("building");
+    // building.addGroup(groupEntities);
 }
 
 void Game::handleEvents()
@@ -100,12 +89,12 @@ void Game::update()
     manager.refresh();
     manager.update();
 
-    if(Collision::AABB(player.getComponent<ColliderComponent>().collider,
-    tileWater.getComponent<ColliderComponent>().collider))
-    {
-        player.getComponent<PositionComponent>().velocity* -1;
-        std::cout << "Wall Hit";
-    }
+    // if(Collision::AABB(player.getComponent<ColliderComponent>().collider,
+    // tileWater.getComponent<ColliderComponent>().collider))
+    // {
+    //     player.getComponent<PositionComponent>().velocity* -1;
+    //     std::cout << "Wall Hit";
+    // }
 
     // map->loadMap();
 }
@@ -118,7 +107,6 @@ auto& entities(manager.getGroup(groupEntities));
 void Game::render()
 {
     SDL_RenderClear(renderer);
-    map->drawMap();
     // add stuff to render here
     for(auto& t : tiles)
     {
@@ -140,4 +128,15 @@ void Game::clean()
     SDL_DestroyRenderer(renderer);
     SDL_Quit();
     std::cout << "game cleaned" << std::endl;
+}
+
+void Game::addTile(int id, int x, int y)
+{
+  auto& tile(manager.addEntity());
+  tile.addComponent<TileComponent>(x,y,DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE, id);
+  if(id == 1)
+  {
+    tile.addComponent<ColliderComponent>("water");
+  }
+  tile.addGroup(groupMap);
 }

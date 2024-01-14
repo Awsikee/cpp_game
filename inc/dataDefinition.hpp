@@ -6,6 +6,8 @@
 #define DEFAULT_X_SIZE 1
 #define DEFAULT_Y_SIZE 1
 
+#define GAMESCALE 0.5f
+
 //SmallHouse constants
 #define SH_X_SIZE 4
 #define SH_Y_SIZE 2
