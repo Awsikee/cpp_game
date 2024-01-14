@@ -29,7 +29,6 @@ public:
             case SDLK_a:
                 transform->velocity.x = -1;
                 sprite->play("walk_left");
-
                 break;
             case SDLK_s:
                 transform->velocity.y = 1;

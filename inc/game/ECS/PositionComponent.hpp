@@ -8,7 +8,6 @@ class PositionComponent : public Component
 {
 
 public:
-
     Vector2D position;
     Vector2D velocity;
 
@@ -16,8 +15,7 @@ public:
     int width = 128;
     float scale = 1.0f;
 
-    int speed = 3;
-
+    int speed = 2;
 
     PositionComponent()
     {
@@ -29,12 +27,12 @@ public:
         position.y = y;
     }
 
-        PositionComponent(float x, float y, int w, int h, float sc)
+    PositionComponent(float x, float y, int w, int h, float sc)
     {
         position.x = x;
         position.y = y;
-        height = h;
         width = w;
+        height = h;
         scale = sc;
     }
 
@@ -47,10 +45,7 @@ public:
     {
         position.x += velocity.x * speed;
         position.y += velocity.y * speed;
-        //std::cout<<position;
     }
-
-
 };
 
 #endif
