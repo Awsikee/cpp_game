@@ -8,12 +8,19 @@
 
 #define GAMESCALE 0.5f
 
+#define GAMEWINDOW_X_SIZE 800 
+#define GAMEWINDOW_Y_SIZE 600
+
 //SmallHouse constants
 #define SH_X_SIZE 4
 #define SH_Y_SIZE 2
 #define SH_MAX_RESIDENTS 2
 
 #define DEFAULT_TILE_SIZE 128
+
+#define TILE_SIZE_SCALED (DEFAULT_TILE_SIZE * GAMESCALE)
+#define SCREEN_CENTER_X (GAMEWINDOW_X_SIZE/2)
+#define SCREEN_CENTER_Y (GAMEWINDOW_Y_SIZE/2)
 
 enum tiles
 {

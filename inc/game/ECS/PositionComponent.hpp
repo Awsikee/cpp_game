@@ -19,7 +19,15 @@ public:
 
     PositionComponent()
     {
-        position.Zero();
+        position.x = SCREEN_CENTER_X;
+        position.y = SCREEN_CENTER_Y;    
+    }
+    PositionComponent(float sc)
+    {
+        position.x = SCREEN_CENTER_X;
+        position.y = SCREEN_CENTER_Y;
+
+        scale= sc;
     }
     PositionComponent(float x, float y)
     {
@@ -43,8 +51,6 @@ public:
 
     void update() override
     {
-        position.x += velocity.x * speed;
-        position.y += velocity.y * speed;
     }
 };
 

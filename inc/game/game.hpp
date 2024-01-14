@@ -13,12 +13,14 @@ class ColliderComponent;
 class Game
 {
 private:
-    bool isRunning;
     SDL_Window *window;
     int count;
 
 public:
+    static bool isRunning;
+
     static void addTile(int id, int x, int y);
+    static void addTile(int srcX, int srcY, int xpos, int ypos);
     static SDL_Renderer *renderer;
     static SDL_Event event;
     static std::vector<ColliderComponent*> colliders;
