@@ -38,6 +38,7 @@ public:
                 transform->velocity.x = 1;
                 sprite->play("walk_right");
                 break;
+            
             default:
                 break;
             }
@@ -59,6 +60,8 @@ public:
             case SDLK_d:
                 transform->velocity.x = 0;
                 break;
+            case SDLK_ESCAPE:
+                Game::isRunning = false;
             default:
                 break;
             }

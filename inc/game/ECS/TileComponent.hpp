@@ -9,47 +9,36 @@
 class TileComponent : public Component
 {
     public:
-        PositionComponent *transform;
-        SpriteComponent *sprite;
 
-        SDL_Rect tileRect;
-        int tileID;
-        char* path;
+        SDL_Texture* texture;
+        SDL_Rect srcRect, destRect;
+
 
         TileComponent() = default;
-        TileComponent(int x, int y, int w, int h, int id)
-        {
-            tileRect.x = x;
-            tileRect.y = y;
-            tileRect.w = w;
-            tileRect.h = h;
-            tileID = id;
 
-            switch (tileID)
-            {
-                case tiles::g:
-                    path = "../../assets/grass.png";
-                    break;
-                case tiles::w:
-                    path = "../../assets/water.png";
-                    break;
-                case tiles::d:
-                    path = "../../assets/dirt.png";
-                    break;
-                default:
-                    // add some texture missing to avoid exceptions during execution
-                    break;
-            }
-            
+        ~TileComponent()
+        {
+            SDL_DestroyTexture(texture);
         }
 
-        void init() override
+        TileComponent(int srcX, int srcY, int x, int y,const char* path)
         {
-            entity->addComponent<PositionComponent>((float)tileRect.x, (float)tileRect.y, tileRect.w, tileRect.h, 1);
-            transform = &entity->getComponent<PositionComponent>();
-            entity->addComponent<SpriteComponent>(path);
-            sprite = &entity->getComponent<SpriteComponent>();
+            texture = TextureManager::LoadTexture(path);
+            srcRect.x = srcX;
+            srcRect.y = srcY;
+            srcRect.w =srcRect.h = DEFAULT_TILE_SIZE;
+
+            destRect.x = x;
+            destRect.y = y;
+            destRect.w = destRect.h = DEFAULT_TILE_SIZE;
         }
+
+        void draw( ) override
+        {
+            TextureManager::Draw(texture, srcRect,destRect);
+        }
+
+
 };
 
 #endif
