@@ -25,6 +25,9 @@
 #define MAP_X_DIM (16 * DEFAULT_TILE_SIZE)
 #define MAP_Y_DIM (16 * DEFAULT_TILE_SIZE)
 
+
+#define ANIMATION_FPS 10
+#define ANIMATION_SPEED 100
 enum tiles
 {
     g,

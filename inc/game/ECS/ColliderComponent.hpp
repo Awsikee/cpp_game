@@ -8,11 +8,11 @@
 
 class ColliderComponent : public Component
 {
-    public:
+public:
     SDL_Rect collider;
     std::string tag;
 
-    PositionComponent* transform;
+    PositionComponent *transform;
 
     ColliderComponent(std::string t)
     {
@@ -21,7 +21,7 @@ class ColliderComponent : public Component
 
     void init() override
     {
-        if(!entity->hasComponent<PositionComponent>())
+        if (!entity->hasComponent<PositionComponent>())
         {
             entity->addComponent<PositionComponent>();
         }
@@ -37,9 +37,6 @@ class ColliderComponent : public Component
         collider.w = static_cast<int>(transform->width * transform->scale);
         collider.h = static_cast<int>(transform->height * transform->scale);
     }
-
-
 };
-
 
 #endif
