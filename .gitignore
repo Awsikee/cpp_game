@@ -1,7 +1,2 @@
 build/
 .vscode/
-SDL2_image-2.8.1/
-inc/bin/
-inc/include/SDL2/
-inc/lib/
-

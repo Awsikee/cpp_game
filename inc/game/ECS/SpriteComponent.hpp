@@ -33,10 +33,10 @@ public:
     {
         animated = isAnimated;
         //Animation idle = Animation(0, 0, 100);
-        Animation walk_front = Animation(0,ANIMATION_FPS, ANIMATION_SPEED);
-        Animation walk_back = Animation(1,ANIMATION_FPS, ANIMATION_SPEED);
-        Animation walk_left = Animation(2,ANIMATION_FPS, ANIMATION_SPEED);
-        Animation walk_right = Animation(3,ANIMATION_FPS, ANIMATION_SPEED);
+        Animation walk_front = Animation(0,10,100);
+        Animation walk_back = Animation(1,10,100);
+        Animation walk_left = Animation(2,10,100);
+        Animation walk_right = Animation(3,10,100);
 
         animations.emplace("walk_front",walk_front);
         animations.emplace("walk_back",walk_back);
