@@ -12,8 +12,9 @@ Map *map;
 SDL_Renderer *Game::renderer = nullptr;
 Manager manager;
 SDL_Event Game::event;
+SDL_Rect Game::camera = {0, 0, 800, 640};
 
-std::vector<ColliderComponent*> Game::colliders;
+std::vector<ColliderComponent *> Game::colliders;
 
 bool Game::isRunning = false;
 
@@ -21,7 +22,7 @@ auto &player(manager.addEntity());
 auto &wall(manager.addEntity());
 auto &building(manager.addEntity());
 
-const char* mapfile = "../../assets/map.png";
+const char *mapfile = "../../assets/map.png";
 
 Game::Game()
 {
@@ -31,7 +32,6 @@ Game::~Game() {}
 void Game::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
     int flags = 0;
-    count = 0;
     if (fullscreen)
     {
         flags = SDL_WINDOW_FULLSCREEN;
@@ -58,15 +58,14 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
         isRunning = false;
     }
     map = new Map();
-    Map::loadMap("../../assets/map.map",16,16);
+    Map::loadMap("../../assets/map.map", MAP_X_DIM, MAP_Y_DIM);
 
-
-    player.addComponent<PositionComponent>(GAMEWINDOW_X_SIZE/2,GAMEWINDOW_Y_SIZE/2,400,704,0.25f *GAMESCALE);
-    player.addComponent<SpriteComponent>("../../assets/full_spritesheet.png",true);
+    player.addComponent<PositionComponent>(GAMEWINDOW_X_SIZE / 2, GAMEWINDOW_Y_SIZE / 2, 400, 704, 0.25f * GAMESCALE);
+    player.addComponent<SpriteComponent>("../../assets/full_spritesheet.png", true);
     player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player");
     player.addGroup(groupNPCs);
-    
+
     // building.addComponent<PositionComponent>(tilePosition(2.0f), tilePosition(2.0f), DEFAULT_TILE_SIZE, 2*DEFAULT_TILE_SIZE , 1);
     // building.addComponent<SpriteComponent>("../../assets/brick.png");
     // building.addComponent<ColliderComponent>("building");
@@ -86,50 +85,43 @@ void Game::handleEvents()
     }
 }
 
-auto& tiles(manager.getGroup(groupMap));
-auto& players(manager.getGroup(groupNPCs));
-auto& entities(manager.getGroup(groupEntities));
-
+auto &tiles(manager.getGroup(groupMap));
+auto &players(manager.getGroup(groupNPCs));
+auto &entities(manager.getGroup(groupEntities));
 
 void Game::update()
 {
-    count++;
     manager.refresh();
     manager.update();
 
-    Vector2D pVel =  player.getComponent<PositionComponent>().velocity;
-    int pSpeed = player.getComponent<PositionComponent>().speed;
-    //std::cout<< pVel << std::endl;
-    for(auto t : tiles)
-    {
-        t->getComponent<TileComponent>().destRect.x += -(pVel.x * pSpeed);
-        t->getComponent<TileComponent>().destRect.y += -(pVel.y * pSpeed);
+    const PositionComponent& playerPosition = player.getComponent<PositionComponent>();
+    camera.x = playerPosition.position.x - (GAMEWINDOW_X_SIZE / 2);
+    camera.y = playerPosition.position.y - (GAMEWINDOW_Y_SIZE / 2);
 
-    }
+    // Calculate the maximum camera x and y position
+    int maxCameraX = static_cast<int>(MAP_X_DIM * TILE_SIZE_SCALED - camera.w);
+    int maxCameraY = static_cast<int>(MAP_Y_DIM * TILE_SIZE_SCALED - camera.h);
 
-    // if(Collision::AABB(player.getComponent<ColliderComponent>().collider,
-    // tileWater.getComponent<ColliderComponent>().collider))
-    // {
-    //     player.getComponent<PositionComponent>().velocity* -1;
-    //     std::cout << "Wall Hit";
-    // }
-
-    // map->loadMap();
+    // Clamp the camera position within the valid range
+    camera.x = std::max(camera.x, 0);
+    camera.y = std::max(camera.y, 0);
+    camera.x = std::min(camera.x, maxCameraX);
+    camera.y = std::min(camera.y, maxCameraY);
 }
 
 void Game::render()
 {
     SDL_RenderClear(renderer);
     // add stuff to render here
-    for(auto& t : tiles)
+    for (auto &t : tiles)
     {
         t->draw();
     }
-    for(auto& p : players)
+    for (auto &p : players)
     {
         p->draw();
     }
-    for(auto& e : entities)
+    for (auto &e : entities)
     {
         e->draw();
     }
@@ -145,11 +137,7 @@ void Game::clean()
 
 void Game::addTile(int srcX, int srcY, int xpos, int ypos)
 {
-  auto& tile(manager.addEntity());
-  tile.addComponent<TileComponent>(srcX,srcY,xpos, ypos, mapfile);
-//   if(id == 1)
-//   {
-//     tile.addComponent<ColliderComponent>("water");
-//   }
-  tile.addGroup(groupMap);
+    auto &tile(manager.addEntity());
+    tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, mapfile);
+    tile.addGroup(groupMap);
 }

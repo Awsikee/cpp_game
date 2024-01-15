@@ -24,6 +24,7 @@ public:
     static SDL_Renderer *renderer;
     static SDL_Event event;
     static std::vector<ColliderComponent*> colliders;
+    static SDL_Rect camera;
 
     Game();
     ~Game();
