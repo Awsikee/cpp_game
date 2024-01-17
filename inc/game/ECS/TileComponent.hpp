@@ -22,7 +22,7 @@ class TileComponent : public Component
             SDL_DestroyTexture(texture);
         }
 
-        TileComponent(int srcX, int srcY, int x, int y,const char* path)
+        TileComponent(int srcX, int srcY, int x, int y, const char* path)
         {
             texture = TextureManager::LoadTexture(path);
             position.x = static_cast<int>(x);
@@ -33,7 +33,7 @@ class TileComponent : public Component
 
             destRect.x = x;
             destRect.y = y;
-            destRect.w = destRect.h = DEFAULT_TILE_SIZE;
+            destRect.w = destRect.h = TILE_SIZE_SCALED;
         }
 
         void update() override

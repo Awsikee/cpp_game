@@ -1,9 +1,12 @@
 #include "../../inc/game/Map.hpp"
 #include "../../inc/game/textureManager.hpp"
 #include "../../inc/game/game.hpp"
+#include "../../inc/game/ECS/Components.hpp"
 #include <fstream>
 
-Map::Map()
+extern Manager manager;
+
+Map::Map(const char* mapfilepath): mapfilepath(mapfilepath)
 {
 }
 
@@ -27,10 +30,23 @@ void Map::loadMap(std::string path, int sizeX, int sizeY)
             srcY = atoi(&c) * DEFAULT_TILE_SIZE;
             mapFile.get(c);
             srcX = atoi(&c) * DEFAULT_TILE_SIZE;
-            Game::addTile(srcX, srcY, x * TILE_SIZE_SCALED, y * TILE_SIZE_SCALED);
+            this->addTile(srcX, srcY, x * TILE_SIZE_SCALED, y * TILE_SIZE_SCALED);
+            if(srcY == 128)
+            {
+                auto& tcol(manager.addEntity());
+                tcol.addComponent<ColliderComponent>("terrain", x * TILE_SIZE_SCALED, y *TILE_SIZE_SCALED);
+                tcol.addGroup(groupColliders);
+            }
             mapFile.ignore();
         }
     }
 
     mapFile.close();
+}
+
+void Map::addTile(int srcX, int srcY, int xpos, int ypos)
+{
+    auto &tile(manager.addEntity());
+    tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, mapfilepath);
+    tile.addGroup(groupMap);
 }

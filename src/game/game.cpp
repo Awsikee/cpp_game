@@ -22,8 +22,6 @@ auto &player(manager.addEntity());
 auto &wall(manager.addEntity());
 auto &building(manager.addEntity());
 
-const char *mapfile = "../../assets/map.png";
-
 Game::Game()
 {
 }
@@ -57,13 +55,13 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     {
         isRunning = false;
     }
-    map = new Map();
-    Map::loadMap("../../assets/map.map", MAP_X_DIM, MAP_Y_DIM);
+    map = new Map("../../assets/map.png");
+    map->loadMap("../../assets/map.map", MAP_X_DIM, MAP_Y_DIM);
 
     player.addComponent<PositionComponent>(GAMEWINDOW_X_SIZE / 2, GAMEWINDOW_Y_SIZE / 2, 400, 704, 0.25f * GAMESCALE);
     player.addComponent<SpriteComponent>("../../assets/full_spritesheet.png", true);
     player.addComponent<KeyboardController>();
-    player.addComponent<ColliderComponent>("player");
+    player.addComponent<ColliderComponent>("player", GAMEWINDOW_X_SIZE / 2,  GAMEWINDOW_Y_SIZE / 2,  48, 48);
     player.addGroup(groupNPCs);
 
     // building.addComponent<PositionComponent>(tilePosition(2.0f), tilePosition(2.0f), DEFAULT_TILE_SIZE, 2*DEFAULT_TILE_SIZE , 1);
@@ -86,13 +84,64 @@ void Game::handleEvents()
 }
 
 auto &tiles(manager.getGroup(groupMap));
+auto &colliders(manager.getGroup(groupColliders));
 auto &players(manager.getGroup(groupNPCs));
 auto &entities(manager.getGroup(groupEntities));
 
 void Game::update()
 {
+    SDL_Rect playerCol = player.getComponent<ColliderComponent>().collider;
+    Vector2D playerPos = player.getComponent<PositionComponent>().position;
     manager.refresh();
     manager.update();
+
+for (auto &c : colliders)
+    {
+        SDL_Rect cCol = c->collider;
+        ;
+        if (c->tag != player.getComponent<ColliderComponent>().tag)
+        {
+            CollisionDirection collidingDirection = Collision::isColliding(playerCol, cCol);
+            if (collidingDirection != CollisionDirection::NONE)
+            {
+         switch (collidingDirection)
+              {
+                case CollisionDirection::DOWN:
+                    if (player.getComponent<PositionComponent>().velocity.y < 0) // Only stop upward movement if player is moving upwards
+                    {
+                        player.getComponent<PositionComponent>().velocity.y +=1;
+                    }
+                    break;
+
+                case CollisionDirection::UP:
+                    if (player.getComponent<PositionComponent>().velocity.y > 0) // Only stop downward movement if player is moving downwards
+                    {
+                        player.getComponent<PositionComponent>().velocity.y  -= 1;
+                    }
+                    break;
+
+                case CollisionDirection::RIGHT:
+                    if (player.getComponent<PositionComponent>().velocity.x < 0) // Only stop leftward movement if player is moving leftwards
+                    {
+                        player.getComponent<PositionComponent>().velocity.x  += 1;
+                    }
+                    break;
+
+                case CollisionDirection::LEFT:
+                    if (player.getComponent<PositionComponent>().velocity.x > 0) // Only stop rightward movement if player is moving rightwards
+                    {
+                        player.getComponent<PositionComponent>().velocity.x -=1;
+                    }
+                    break;
+
+                default:
+                    break;
+                }
+            }
+        }
+    }
+
+    
 
     const PositionComponent& playerPosition = player.getComponent<PositionComponent>();
     camera.x = playerPosition.position.x - (GAMEWINDOW_X_SIZE / 2);
@@ -117,13 +166,13 @@ void Game::render()
     {
         t->draw();
     }
+    for (auto &c : colliders)
+    {
+        c->draw();
+    }
     for (auto &p : players)
     {
         p->draw();
-    }
-    for (auto &e : entities)
-    {
-        e->draw();
     }
     SDL_RenderPresent(renderer);
 }
@@ -135,9 +184,3 @@ void Game::clean()
     std::cout << "game cleaned" << std::endl;
 }
 
-void Game::addTile(int srcX, int srcY, int xpos, int ypos)
-{
-    auto &tile(manager.addEntity());
-    tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, mapfile);
-    tile.addGroup(groupMap);
-}
