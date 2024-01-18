@@ -9,10 +9,14 @@
 class TileComponent : public Component
 {
     public:
+        int g, h, f;
 
         SDL_Texture* texture;
         SDL_Rect srcRect, destRect;
         Vector2D position;
+        Vector2D tileMiddle;
+
+        bool isWalkable;
 
 
         TileComponent() = default;
@@ -22,7 +26,7 @@ class TileComponent : public Component
             SDL_DestroyTexture(texture);
         }
 
-        TileComponent(int srcX, int srcY, int x, int y, const char* path)
+        TileComponent(int srcX, int srcY, int x, int y, const char* path, bool isWalkable)
         {
             texture = TextureManager::LoadTexture(path);
             position.x = static_cast<int>(x);
@@ -34,6 +38,10 @@ class TileComponent : public Component
             destRect.x = x;
             destRect.y = y;
             destRect.w = destRect.h = TILE_SIZE_SCALED;
+
+            tileMiddle.x = position.x + DEFAULT_TILE_SIZE/2;
+            tileMiddle.y = position.y + DEFAULT_TILE_SIZE/2;
+            isWalkable = isWalkable;
         }
 
         void update() override
