@@ -12,7 +12,7 @@ class Map{
     ~Map();
 
     void loadMap(std::string path, int sizeX, int sizeY);
-    void addTile(int srcX, int srcY, int xpos, int ypos);
+    void addTile(int srcX, int srcY, int xpos, int ypos, bool isWalkable);
 
     private:
     const char *mapfilepath;

@@ -15,7 +15,7 @@ public:
     int width = 128;
     float scale = 1.0f;
 
-    int speed = 2;
+    int speed = 1;
 
     PositionComponent()
     {

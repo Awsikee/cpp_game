@@ -30,12 +30,16 @@ void Map::loadMap(std::string path, int sizeX, int sizeY)
             srcY = atoi(&c) * DEFAULT_TILE_SIZE;
             mapFile.get(c);
             srcX = atoi(&c) * DEFAULT_TILE_SIZE;
-            this->addTile(srcX, srcY, x * TILE_SIZE_SCALED, y * TILE_SIZE_SCALED);
             if(srcY == 128)
             {
+                this->addTile(srcX, srcY, x * TILE_SIZE_SCALED, y * TILE_SIZE_SCALED, false);
                 auto& tcol(manager.addEntity());
                 tcol.addComponent<ColliderComponent>("terrain", x * TILE_SIZE_SCALED, y *TILE_SIZE_SCALED);
                 tcol.addGroup(groupColliders);
+            }
+            else
+            {
+                this->addTile(srcX, srcY, x * TILE_SIZE_SCALED, y * TILE_SIZE_SCALED, true);
             }
             mapFile.ignore();
         }
@@ -44,9 +48,9 @@ void Map::loadMap(std::string path, int sizeX, int sizeY)
     mapFile.close();
 }
 
-void Map::addTile(int srcX, int srcY, int xpos, int ypos)
+void Map::addTile(int srcX, int srcY, int xpos, int ypos, bool isWalkable)
 {
     auto &tile(manager.addEntity());
-    tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, mapfilepath);
+    tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, mapfilepath, isWalkable);
     tile.addGroup(groupMap);
 }

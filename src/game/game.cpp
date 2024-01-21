@@ -8,13 +8,16 @@
 #include "../../inc/game/ECS/SpriteComponent.hpp"
 #include "../../inc/game/ECS/Collision.hpp"
 
-Map *map;
+Map *mapObj;
+
 SDL_Renderer *Game::renderer = nullptr;
 Manager manager;
 SDL_Event Game::event;
 SDL_Rect Game::camera = {0, 0, 800, 640};
 
 std::vector<ColliderComponent *> Game::colliders;
+
+vector<Vector2D> path;
 
 bool Game::isRunning = false;
 
@@ -55,19 +58,29 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     {
         isRunning = false;
     }
-    map = new Map("../../assets/map.png");
-    map->loadMap("../../assets/map.map", MAP_X_DIM, MAP_Y_DIM);
+    mapObj = new Map("../../assets/map.png");
+    mapObj->loadMap("../../assets/map.map", MAP_X_DIM, MAP_Y_DIM);
 
-    player.addComponent<PositionComponent>(GAMEWINDOW_X_SIZE / 2, GAMEWINDOW_Y_SIZE / 2, 400, 704, 0.25f * GAMESCALE);
+    player.addComponent<PositionComponent>(0, 0, 256, 256, 0.5 * GAMESCALE);
     player.addComponent<SpriteComponent>("../../assets/full_spritesheet.png", true);
     player.addComponent<KeyboardController>();
-    player.addComponent<ColliderComponent>("player", GAMEWINDOW_X_SIZE / 2,  GAMEWINDOW_Y_SIZE / 2,  48, 48);
+    player.addComponent<ColliderComponent>("player", 0, 0, 48, 48);
+    player.addComponent<ArtificialMovement>();
     player.addGroup(groupNPCs);
 
-    // building.addComponent<PositionComponent>(tilePosition(2.0f), tilePosition(2.0f), DEFAULT_TILE_SIZE, 2*DEFAULT_TILE_SIZE , 1);
-    // building.addComponent<SpriteComponent>("../../assets/brick.png");
-    // building.addComponent<ColliderComponent>("building");
-    // building.addGroup(groupEntities);
+
+    path = player.getComponent<ArtificialMovement>().findPath({0,0},{14,6});
+    
+    
+    // Print the path
+
+    // std::cout << "Path: ";
+    // for (const auto &point : path)
+    // {
+    //     cout << "(" << point.x << ", " << point.y << ") ";
+    // }
+    // std::cout << std::endl;
+
 }
 
 void Game::handleEvents()
@@ -95,7 +108,9 @@ void Game::update()
     manager.refresh();
     manager.update();
 
-for (auto &c : colliders)
+
+
+    for (auto &c : colliders)
     {
         SDL_Rect cCol = c->collider;
         ;
@@ -104,33 +119,33 @@ for (auto &c : colliders)
             CollisionDirection collidingDirection = Collision::isColliding(playerCol, cCol);
             if (collidingDirection != CollisionDirection::NONE)
             {
-         switch (collidingDirection)
-              {
+                switch (collidingDirection)
+                {
                 case CollisionDirection::DOWN:
                     if (player.getComponent<PositionComponent>().velocity.y < 0) // Only stop upward movement if player is moving upwards
                     {
-                        player.getComponent<PositionComponent>().velocity.y +=1;
+                        player.getComponent<PositionComponent>().velocity.y += 1;
                     }
                     break;
 
                 case CollisionDirection::UP:
                     if (player.getComponent<PositionComponent>().velocity.y > 0) // Only stop downward movement if player is moving downwards
                     {
-                        player.getComponent<PositionComponent>().velocity.y  -= 1;
+                        player.getComponent<PositionComponent>().velocity.y -= 1;
                     }
                     break;
 
                 case CollisionDirection::RIGHT:
                     if (player.getComponent<PositionComponent>().velocity.x < 0) // Only stop leftward movement if player is moving leftwards
                     {
-                        player.getComponent<PositionComponent>().velocity.x  += 1;
+                        player.getComponent<PositionComponent>().velocity.x += 1;
                     }
                     break;
 
                 case CollisionDirection::LEFT:
                     if (player.getComponent<PositionComponent>().velocity.x > 0) // Only stop rightward movement if player is moving rightwards
                     {
-                        player.getComponent<PositionComponent>().velocity.x -=1;
+                        player.getComponent<PositionComponent>().velocity.x -= 1;
                     }
                     break;
 
@@ -141,9 +156,7 @@ for (auto &c : colliders)
         }
     }
 
-    
-
-    const PositionComponent& playerPosition = player.getComponent<PositionComponent>();
+    const PositionComponent &playerPosition = player.getComponent<PositionComponent>();
     camera.x = playerPosition.position.x - (GAMEWINDOW_X_SIZE / 2);
     camera.y = playerPosition.position.y - (GAMEWINDOW_Y_SIZE / 2);
 
@@ -183,4 +196,3 @@ void Game::clean()
     SDL_Quit();
     std::cout << "game cleaned" << std::endl;
 }
-

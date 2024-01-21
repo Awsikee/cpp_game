@@ -22,16 +22,6 @@ int main()
 
     game->init("test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, GAMEWINDOW_X_SIZE, GAMEWINDOW_Y_SIZE, false);
 
-    SmallHouse smallHouse("Nice place", 10, 20);
-    int defaultEnergy = 50;
-    Villager villager(45,male,fine,1,0,0, "robert", "jr", &defaultEnergy);
-
-    smallHouse.assignCharacter(villager);
-    villager.interact(smallHouse);
-    //std::cout  << "Energy: " << static_cast<int>(*villager.energy) << std::endl;
-    villager.printData();
-    smallHouse.getInfo();
-
 
     while(game->running())
     {
