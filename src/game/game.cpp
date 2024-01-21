@@ -17,6 +17,8 @@ SDL_Rect Game::camera = {0, 0, 800, 640};
 
 std::vector<ColliderComponent *> Game::colliders;
 
+vector<Vector2D> path;
+
 bool Game::isRunning = false;
 
 auto &player(manager.addEntity());
@@ -59,26 +61,26 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     mapObj = new Map("../../assets/map.png");
     mapObj->loadMap("../../assets/map.map", MAP_X_DIM, MAP_Y_DIM);
 
-    player.addComponent<PositionComponent>(GAMEWINDOW_X_SIZE / 2, GAMEWINDOW_Y_SIZE / 2, 400, 704, 0.25f * GAMESCALE);
+    player.addComponent<PositionComponent>(0, 0, 256, 256, 0.5 * GAMESCALE);
     player.addComponent<SpriteComponent>("../../assets/full_spritesheet.png", true);
     player.addComponent<KeyboardController>();
-    player.addComponent<ColliderComponent>("player", GAMEWINDOW_X_SIZE / 2, GAMEWINDOW_Y_SIZE / 2, 48, 48);
+    player.addComponent<ColliderComponent>("player", 0, 0, 48, 48);
     player.addComponent<ArtificialMovement>();
     player.addGroup(groupNPCs);
 
+
+    path = player.getComponent<ArtificialMovement>().findPath({0,0},{14,6});
     
-    vector<Vector2D> path = player.getComponent<ArtificialMovement>().findPath({2,0},{0,0});
+    
     // Print the path
-    std::cout << "Path: ";
-    for (const auto &point : path)
-    {
-        cout << "(" << point.x << ", " << point.y << ") ";
-    }
-    std::cout << std::endl;
-    // building.addComponent<PositionComponent>(tilePosition(2.0f), tilePosition(2.0f), DEFAULT_TILE_SIZE, 2*DEFAULT_TILE_SIZE , 1);
-    // building.addComponent<SpriteComponent>("../../assets/brick.png");
-    // building.addComponent<ColliderComponent>("building");
-    // building.addGroup(groupEntities);
+
+    // std::cout << "Path: ";
+    // for (const auto &point : path)
+    // {
+    //     cout << "(" << point.x << ", " << point.y << ") ";
+    // }
+    // std::cout << std::endl;
+
 }
 
 void Game::handleEvents()

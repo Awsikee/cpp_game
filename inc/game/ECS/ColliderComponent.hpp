@@ -63,7 +63,7 @@ class ColliderComponent : public Component
         if(tag !="terrain")
         {
             collider.x = transform->position.x;
-            collider.y = transform->position.y + 48;
+            collider.y = transform->position.y + 12;
             //collider.w = static_cast<int>(transform->width * transform->scale);
             //collider.h = static_cast<int>(transform->height * transform->scale);
         }

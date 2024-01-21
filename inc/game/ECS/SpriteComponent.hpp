@@ -56,8 +56,8 @@ public:
         transform = &entity->getComponent<PositionComponent>();
 
         srcRect.x = srcRect.y = 0;
-        srcRect.w = 400; // To be changed when image sizes are standarized
-        srcRect.h = 704; // To be changed when image sizes are standarized
+        srcRect.w = 256; // To be changed when image sizes are standarized
+        srcRect.h = 256; // To be changed when image sizes are standarized
     }
     void update() override
     {
