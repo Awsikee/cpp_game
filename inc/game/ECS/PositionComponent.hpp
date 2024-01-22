@@ -29,10 +29,11 @@ public:
 
         scale= sc;
     }
-    PositionComponent(int x, int y)
+    PositionComponent(int x, int y, int s)
     {
         position.x = x;
         position.y = y;
+        speed = s;
     }
 
     PositionComponent(int x, int y, int w, int h, float sc)

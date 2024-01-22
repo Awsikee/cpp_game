@@ -73,6 +73,32 @@ CollisionDirection Collision::isColliding(const SDL_Rect& recA, const SDL_Rect& 
     }
 }
 
+CollisionDirection Collision::collisionByBoundaries(const SDL_Rect& recA, int minX, int maxX, int minY, int maxY)
+{
+    CollisionDirection collisionDirection = CollisionDirection::NONE;
+
+    if (recA.x < minX && recA.y < minY) {
+        collisionDirection = CollisionDirection::UP_LEFT;
+    } else if (recA.x + recA.w > maxX && recA.y < minY) {
+        collisionDirection = CollisionDirection::UP_RIGHT;
+    } else if (recA.x < minX && recA.y + recA.h > maxY) {
+        collisionDirection = CollisionDirection::DOWN_LEFT;
+    } else if (recA.x + recA.w > maxX && recA.y + recA.h > maxY) {
+        collisionDirection = CollisionDirection::DOWN_RIGHT;
+    } else if (recA.x < minX) {
+        collisionDirection = CollisionDirection::LEFT;
+    } else if (recA.x + recA.w > maxX) {
+        collisionDirection = CollisionDirection::RIGHT;
+    } else if (recA.y < minY) {
+        collisionDirection = CollisionDirection::UP;
+    } else if (recA.y + recA.h > maxY) {
+        collisionDirection = CollisionDirection::DOWN;
+    }
+
+    return collisionDirection;
+}
+
+
 bool Collision::AABB(const SDL_Rect& recA, const SDL_Rect& recB)
 {
     // Check for horizontal separation

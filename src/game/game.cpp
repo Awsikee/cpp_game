@@ -21,6 +21,8 @@ vector<Vector2D> path;
 
 bool Game::isRunning = false;
 
+auto &cameraEntity(manager.addEntity());
+
 auto &player(manager.addEntity());
 auto &wall(manager.addEntity());
 auto &building(manager.addEntity());
@@ -61,9 +63,17 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     mapObj = new Map("../../assets/map.png");
     mapObj->loadMap("../../assets/map.map", MAP_X_DIM, MAP_Y_DIM);
 
+    
+    cameraEntity.addComponent<PositionComponent>(GAMEWINDOW_X_SIZE/2, GAMEWINDOW_Y_SIZE/2, 3);
+    //cameraEntity.addComponent<SpriteComponent>("../../assets/full_spritesheet.png", true);
+    cameraEntity.addComponent<KeyboardController>();
+    cameraEntity.addComponent<ColliderComponent>("camera", GAMEWINDOW_X_SIZE/2, GAMEWINDOW_Y_SIZE/2, 1, 1);
+    //cameraEntity.addComponent<ArtificialMovement>();
+    cameraEntity.addGroup(groupNPCs);
+
     player.addComponent<PositionComponent>(0, 0, 256, 256, 0.5 * GAMESCALE);
     player.addComponent<SpriteComponent>("../../assets/full_spritesheet.png", true);
-    player.addComponent<KeyboardController>();
+    //player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player", 0, 0, 48, 48);
     player.addComponent<ArtificialMovement>();
     player.addGroup(groupNPCs);
@@ -103,67 +113,117 @@ auto &entities(manager.getGroup(groupEntities));
 
 void Game::update()
 {
-    SDL_Rect playerCol = player.getComponent<ColliderComponent>().collider;
-    Vector2D playerPos = player.getComponent<PositionComponent>().position;
+    SDL_Rect cameraEntityCol = cameraEntity.getComponent<ColliderComponent>().collider;
+    Vector2D cameraEntityPos = cameraEntity.getComponent<PositionComponent>().position;
     manager.refresh();
     manager.update();
 
-
+// since the movement is defined by A* algorithm this functionality may be removed
 
     for (auto &c : colliders)
     {
         SDL_Rect cCol = c->collider;
         ;
-        if (c->tag != player.getComponent<ColliderComponent>().tag)
+        if (c->tag != cameraEntity.getComponent<ColliderComponent>().tag)
         {
-            CollisionDirection collidingDirection = Collision::isColliding(playerCol, cCol);
+            CollisionDirection collidingDirection = Collision::collisionByBoundaries(cameraEntityCol, camera.w/2, TILE_SIZE_SCALED*MAP_X_DIM - camera.w/2, camera.h/2, TILE_SIZE_SCALED*MAP_Y_DIM - camera.h/2);
             if (collidingDirection != CollisionDirection::NONE)
             {
                 switch (collidingDirection)
                 {
-                case CollisionDirection::DOWN:
-                    if (player.getComponent<PositionComponent>().velocity.y < 0) // Only stop upward movement if player is moving upwards
-                    {
-                        player.getComponent<PositionComponent>().velocity.y += 1;
-                    }
-                    break;
-
                 case CollisionDirection::UP:
-                    if (player.getComponent<PositionComponent>().velocity.y > 0) // Only stop downward movement if player is moving downwards
+                    if (cameraEntity.getComponent<PositionComponent>().velocity.y < 0) // Only stop upward movement if cameraEntity is moving upwards
                     {
-                        player.getComponent<PositionComponent>().velocity.y -= 1;
+                        cameraEntity.getComponent<PositionComponent>().velocity.y += 1;
                     }
                     break;
-
-                case CollisionDirection::RIGHT:
-                    if (player.getComponent<PositionComponent>().velocity.x < 0) // Only stop leftward movement if player is moving leftwards
+            
+                case CollisionDirection::DOWN:
+                    if (cameraEntity.getComponent<PositionComponent>().velocity.y > 0) // Only stop downward movement if cameraEntity is moving downwards
                     {
-                        player.getComponent<PositionComponent>().velocity.x += 1;
+                        cameraEntity.getComponent<PositionComponent>().velocity.y -= 1;
                     }
                     break;
-
+            
                 case CollisionDirection::LEFT:
-                    if (player.getComponent<PositionComponent>().velocity.x > 0) // Only stop rightward movement if player is moving rightwards
+                    if (cameraEntity.getComponent<PositionComponent>().velocity.x < 0) // Only stop leftward movement if cameraEntity is moving leftwards
                     {
-                        player.getComponent<PositionComponent>().velocity.x -= 1;
+                        cameraEntity.getComponent<PositionComponent>().velocity.x += 1;
                     }
                     break;
+            
+                case CollisionDirection::RIGHT:
+                    if (cameraEntity.getComponent<PositionComponent>().velocity.x > 0) // Only stop rightward movement if cameraEntity is moving rightwards
+                    {
+                        cameraEntity.getComponent<PositionComponent>().velocity.x -= 1;
+                    }
+                    break;
+            
+                case CollisionDirection::UP_LEFT:
+                    if (cameraEntity.getComponent<PositionComponent>().velocity.x < 0)
+                    {
+                        cameraEntity.getComponent<PositionComponent>().velocity.x += 1;
 
+                    } 
+                    if(cameraEntity.getComponent<PositionComponent>().velocity.y < 0)
+                    {
+                        cameraEntity.getComponent<PositionComponent>().velocity.y += 1;
+                    }
+                    break;
+            
+                case CollisionDirection::UP_RIGHT:
+                    if (cameraEntity.getComponent<PositionComponent>().velocity.x > 0)
+                    {
+                        cameraEntity.getComponent<PositionComponent>().velocity.x -= 1;
+                    }
+                    else if(cameraEntity.getComponent<PositionComponent>().velocity.y < 0)
+                    {
+                        cameraEntity.getComponent<PositionComponent>().velocity.y += 1;
+                    }
+                    break;
+            
+                case CollisionDirection::DOWN_LEFT:
+                    if (cameraEntity.getComponent<PositionComponent>().velocity.x < 0) 
+                    {
+                        cameraEntity.getComponent<PositionComponent>().velocity.x += 1;
+                    }
+                    else if(cameraEntity.getComponent<PositionComponent>().velocity.y > 0)
+                    {
+                        cameraEntity.getComponent<PositionComponent>().velocity.y -= 1;
+                    }
+                    break;
+            
+                case CollisionDirection::DOWN_RIGHT:
+                    if (cameraEntity.getComponent<PositionComponent>().velocity.x > 0) 
+                    {
+                        cameraEntity.getComponent<PositionComponent>().velocity.x -= 1;
+                    }
+                    else if( cameraEntity.getComponent<PositionComponent>().velocity.y > 0)
+                    {
+                        cameraEntity.getComponent<PositionComponent>().velocity.y -= 1;
+                    }
+                    break;
+            
                 default:
                     break;
                 }
             }
+            
+            
         }
     }
 
-    const PositionComponent &playerPosition = player.getComponent<PositionComponent>();
-    camera.x = playerPosition.position.x - (GAMEWINDOW_X_SIZE / 2);
-    camera.y = playerPosition.position.y - (GAMEWINDOW_Y_SIZE / 2);
+
+//camera movement boundaries should be restricted
+    PositionComponent &cameraEntityPosition = cameraEntity.getComponent<PositionComponent>();
+    camera.x = cameraEntityPosition.position.x - (GAMEWINDOW_X_SIZE / 2);
+    camera.y = cameraEntityPosition.position.y - (GAMEWINDOW_Y_SIZE / 2);
 
     // Calculate the maximum camera x and y position
-    int maxCameraX = static_cast<int>(MAP_X_DIM * TILE_SIZE_SCALED - camera.w);
-    int maxCameraY = static_cast<int>(MAP_Y_DIM * TILE_SIZE_SCALED - camera.h);
+    const int maxCameraX = static_cast<int>(MAP_X_DIM * TILE_SIZE_SCALED - camera.w);
+    const int maxCameraY = static_cast<int>(MAP_Y_DIM * TILE_SIZE_SCALED - camera.h);
 
+    //camera movement boundaries should be restricted
     // Clamp the camera position within the valid range
     camera.x = std::max(camera.x, 0);
     camera.y = std::max(camera.y, 0);
