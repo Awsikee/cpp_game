@@ -18,13 +18,13 @@ using namespace std;
 
 struct Node
 {
-    int x, y; // Coordinates of the node
+    Vector2D position; // Coordinates of the node
     int g;    // Cost from start to current node
     int h;    // Heuristic (Manhattan distance to goal)
     int f;    // f = g + h
     Node *parent;
 
-    Node(int x, int y, int g, int h) : x(x), y(y), g(g), h(h), f(g + h), parent(nullptr) {}
+    Node(int x, int y, int g, int h) : position(x,y), g(g), h(h), f(g + h), parent(nullptr) {}
 
     // Overloading comparison operator for priority queue
     bool operator>(const Node &other) const
@@ -33,7 +33,7 @@ struct Node
     }
     bool operator==(const Node &other) const
     {
-        return x == other.x && y == other.y;
+        return position.x == other.position.x && position.y == other.position.y;
     }
 };
 class ArtificialMovement : public Component
@@ -178,13 +178,13 @@ public:
         return nodeWithLowestF;
     }
 
-    std::vector<Vector2D> findPath(Vector2D start, Vector2D goal)
+    std::vector<Vector2D> findPath(const Vector2D start, const Vector2D goal)
     {
-        int rows = collisionGrid.size();
-        int cols = collisionGrid[0].size();
+        const int rows = collisionGrid.size();
+        const int cols = collisionGrid[0].size();
 
-        int dx[] = {1, 0, -1, 0};
-        int dy[] = {0, 1, 0, -1};
+        const int dx[] = {1, 0, -1, 0};
+        const int dy[] = {0, 1, 0, -1};
 
         std::vector<Node *> openSet;
         std::vector<Node *> closedSet;
@@ -202,16 +202,16 @@ public:
 
             closedSet.push_back(current);
 
-            if (current->x == goal.x && current->y == goal.y)
+            if (current->position.x == goal.x && current->position.y == goal.y)
             {
 
                 while (!closedSet.empty())
                 {
-                    if ((current->x == start.x) && (current->y == start.y))
+                    if ((current->position.x == start.x) && (current->position.y == start.y))
                     {
                         break;
                     }
-                    path.push_back({(current->x * TILE_SIZE_SCALED), (current->y * TILE_SIZE_SCALED)});
+                    path.push_back({(current->position.x * TILE_SIZE_SCALED), (current->position.y * TILE_SIZE_SCALED)});
                     current = current->parent;
                 }
                 std::reverse(path.begin(), path.end());
@@ -222,8 +222,8 @@ public:
             for (int i = 0; i < 4; ++i)
             {
 
-                int newX = current->x + dx[i];
-                int newY = current->y + dy[i];
+                int newX = current->position.x + dx[i];
+                int newY = current->position.y + dy[i];
 
                 if (!isValid(newX, newY, rows, cols))
                 {
