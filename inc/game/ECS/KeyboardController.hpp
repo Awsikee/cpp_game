@@ -7,6 +7,9 @@
 
 class KeyboardController : public Component
 {
+private:
+    bool isAnimated;
+
 public:
     PositionComponent *transform;
     SpriteComponent *sprite;
@@ -14,7 +17,16 @@ public:
     void init() override
     {
         transform = &entity->getComponent<PositionComponent>();
-        sprite = &entity->getComponent<SpriteComponent>();
+        if(entity->hasComponent<SpriteComponent>())
+        {
+            sprite = &entity->getComponent<SpriteComponent>();
+        }
+        else
+        {
+            isAnimated = false;
+        }
+
+
     }
     void update() override
     {
@@ -23,22 +35,34 @@ public:
             switch (Game::event.key.keysym.sym)
             {
             case SDLK_w:
-                transform->velocity.y = -1;
-                sprite->play("walk_back");
+                transform->velocity.y = -1 * transform->speed;
+                if (isAnimated)
+                {
+                    sprite->play("walk_back");
+                }
                 break;
             case SDLK_a:
-                transform->velocity.x = -1;
-                sprite->play("walk_left");
+                transform->velocity.x = -1 * transform->speed;
+                if (isAnimated)
+                {
+                    sprite->play("walk_left");
+                }
                 break;
             case SDLK_s:
-                transform->velocity.y = 1;
-                sprite->play("walk_front");
+                transform->velocity.y = 1 * transform->speed;
+                if (isAnimated)
+                {
+                    sprite->play("walk_front");
+                }
                 break;
             case SDLK_d:
-                transform->velocity.x = 1;
-                sprite->play("walk_right");
+                transform->velocity.x = 1 * transform->speed;
+                if (isAnimated)
+                {
+                    sprite->play("walk_right");
+                }
                 break;
-            
+
             default:
                 break;
             }
