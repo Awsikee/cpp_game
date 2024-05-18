@@ -2,8 +2,8 @@
 #ifndef GAMECLASS_HPP
 #define GAMECLASS_HPP
 
-#include "../inc/include/SDL2/SDL.h"
-#include "../SDL2_image-2.8.1/SDL_IMAGE/include/SDL_image.h"
+#include "../SDL2-2.30.1/include/SDL.h"
+#include "../SDL2_image-2.8.2/include/SDL_image.h"
 #include "../../inc/dataDefinition.hpp"
 
 #include <iostream>

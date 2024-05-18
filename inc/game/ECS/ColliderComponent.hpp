@@ -51,7 +51,7 @@ class ColliderComponent : public Component
         transform = &entity->getComponent<PositionComponent>();
 
         
-        tex = TextureManager::LoadTexture("../../assets/collider.png");
+        tex = TextureManager::LoadTexture("../assets/collider.png");
         srcR = {0,0,static_cast<int>(TILE_SIZE_SCALED),static_cast<int>(TILE_SIZE_SCALED)};
         destR = {collider.x, collider.y, collider.w, collider.h};
 
