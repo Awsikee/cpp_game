@@ -60,19 +60,19 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     {
         isRunning = false;
     }
-    mapObj = new Map("../../assets/map.png");
-    mapObj->loadMap("../../assets/map.map", MAP_X_DIM, MAP_Y_DIM);
+    mapObj = new Map("../assets/map.png");
+    mapObj->loadMap("../assets/map.map", MAP_X_DIM, MAP_Y_DIM);
 
     
     cameraEntity.addComponent<PositionComponent>(GAMEWINDOW_X_SIZE/2, GAMEWINDOW_Y_SIZE/2, 3);
-    //cameraEntity.addComponent<SpriteComponent>("../../assets/full_spritesheet.png", true);
+    //cameraEntity.addComponent<SpriteComponent>("../assets/full_spritesheet.png", true);
     cameraEntity.addComponent<KeyboardController>();
     cameraEntity.addComponent<ColliderComponent>("camera", GAMEWINDOW_X_SIZE/2, GAMEWINDOW_Y_SIZE/2, 1, 1);
     //cameraEntity.addComponent<ArtificialMovement>();
     cameraEntity.addGroup(groupNPCs);
 
     player.addComponent<PositionComponent>(0, 0, 256, 256, 0.5 * GAMESCALE);
-    player.addComponent<SpriteComponent>("../../assets/full_spritesheet.png", true);
+    player.addComponent<SpriteComponent>("../assets/full_spritesheet.png", true);
     //player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player", 0, 0, 48, 48);
     player.addComponent<ArtificialMovement>();

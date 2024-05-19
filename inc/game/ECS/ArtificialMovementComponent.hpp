@@ -46,7 +46,7 @@ private:
 
     static std::vector<std::vector<int>> readGridFromFile()
     {
-        std::ifstream file("../../assets/collisionMap.map");
+        std::ifstream file("../assets/collisionMap.map");
         std::vector<std::vector<int>> grid;
 
         if (file.is_open())

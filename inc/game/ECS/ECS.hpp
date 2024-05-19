@@ -105,6 +105,7 @@ public:
         c->init();
         return *c;
     }
+    
     template <typename T>
     T &getComponent() const
     {
